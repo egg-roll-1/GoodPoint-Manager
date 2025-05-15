@@ -1,17 +1,14 @@
 import type { FC, ReactNode } from "react"
-import { Header } from "./Header"
-import { BottomNavigation } from "./BottomNavigation"
 
 type Props = {
-    children: ReactNode
+    children: ReactNode,
+    className?: string;
 }
 
-export const Layout: FC<Props> = ({ children }) => {
+export const Layout: FC<Props> = ({ children, className }) => {
     return <div className="max-w-md mx-auto shadow">
-        <Header />
-        <main className="min-h-svh">
+        <main className={className}>
             {children}
         </main>
-        <BottomNavigation />
     </div>
 }

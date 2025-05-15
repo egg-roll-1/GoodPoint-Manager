@@ -1,3 +1,10 @@
+export interface GetManagerResponse {
+  id: number;
+  email: string;
+  name: string;
+  isOwner: boolean;
+}
+
 export interface GetAgencyResponse {
   id: number;
   title: string;
@@ -6,5 +13,5 @@ export interface GetAgencyResponse {
   managerName: string;
   email: string;
   maxPeopleCount: number;
-  managerList: string[];
+  managerList: GetManagerResponse[];
 }
