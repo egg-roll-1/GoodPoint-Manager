@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useLogin } from '@/features/auth/hooks/useAuth'
 import { LoginForm, type LoginRequest } from '@/features/auth/model/auth.request'
@@ -8,9 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { createFileRoute } from '@tanstack/react-router'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const loginSearchSchema = z.object({
+    redirect: z.string()
+})
 
 export const Route = createFileRoute('/login')({
     component: LoginPage,
+    validateSearch: loginSearchSchema
 })
 
 function LoginPage() {
@@ -67,7 +73,9 @@ function LoginPage() {
                                         )}
                                     />
                                 </div>
-                                <Button type='submit' className='w-full'>로그인</Button>
+                                <Button type='submit' className='w-full' disabled={isPending}>
+                                    {isPending ? '로그인중...' : '로그인'}
+                                </Button>
                             </form>
                         </Form>
                     </CardContent>

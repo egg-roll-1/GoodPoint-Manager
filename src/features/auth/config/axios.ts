@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../../../env';
-import { accessTokenKey } from '../hooks/useAuth';
+import { getAccessToken } from '../hooks/useAuthStore';
 
 export const publicAxios = axios.create({
   baseURL: BASE_URL,
@@ -11,7 +11,7 @@ export const authAxios = axios.create({
 });
 
 authAxios.interceptors.request.use((config) => {
-  const token = localStorage.getItem(accessTokenKey);
+  const token = getAccessToken();
   config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

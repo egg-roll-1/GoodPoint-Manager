@@ -1,29 +1,29 @@
 import { useMutation } from '@tanstack/react-query';
+import { useRouter, useSearch } from '@tanstack/react-router';
+import { useCallback } from 'react';
 import { signIn, signUp } from '../api/api';
-import type { LoginResponse } from '../model/auth.response';
-import type { AuthState } from '../model/model';
-
-export const accessTokenKey = 'GP:ACCESS';
-export const accessTokenExpireKey = 'GP:ACCESS:EXPIRE';
-
-/**
- * 로그인 이후 처리를 수행합니다.
- * @param {LoginResponse} response
- * @returns
- */
-const afterLoginAction = (response: LoginResponse) => {
-  localStorage.setItem(accessTokenKey, response.accessToken);
-  localStorage.setItem(accessTokenExpireKey, response.expiredAt);
-};
+import { useAuthStore } from './useAuthStore';
 
 /**
  * 회원가입
  */
 export const useSignUp = () => {
+  const router = useRouter();
+  const { setAuth } = useAuthStore((state) => state.actions);
+
   return useMutation({
     mutationFn: signUp,
-    onSuccess: (response) => {
-      afterLoginAction(response);
+    onSuccess: async (response) => {
+      const { accessToken, expiredAt: _expiredAt } = response;
+      const expiredAt = new Date(_expiredAt);
+
+      setAuth({
+        accessToken: accessToken,
+        expiredAt: expiredAt,
+        isAuthenticated: !!accessToken && !!expiredAt && new Date() < expiredAt,
+      });
+
+      await router.navigate({ to: '/' });
     },
   });
 };
@@ -32,23 +32,37 @@ export const useSignUp = () => {
  * 로그인
  */
 export const useLogin = () => {
+  const router = useRouter();
+  const search = useSearch({ from: '/login' });
+  const { setAuth } = useAuthStore((state) => state.actions);
+
+  const { redirect } = search;
+
   return useMutation({
     mutationFn: signIn,
-    onSuccess: (response) => {
-      afterLoginAction(response);
+    onSuccess: async (response) => {
+      const { accessToken, expiredAt: _expiredAt } = response;
+      const expiredAt = new Date(_expiredAt);
+
+      setAuth({
+        accessToken: accessToken,
+        expiredAt: expiredAt,
+        isAuthenticated: !!accessToken && !!expiredAt && new Date() < expiredAt,
+      });
+
+      await router.navigate({ to: redirect ?? '/' });
     },
   });
 };
 
-export const useAuth = (): AuthState => {
-  const accessToken = localStorage.getItem(accessTokenKey);
-  const _expiredAt = localStorage.getItem(accessTokenExpireKey);
-  const expiredAt = _expiredAt ? new Date(_expiredAt) : null;
-  const isAuthenticated = !!accessToken && !!expiredAt && new Date() < expiredAt;
+export const useLogout = () => {
+  const router = useRouter();
+  const { logout: _logout } = useAuthStore((state) => state.actions);
 
-  return {
-    accessToken,
-    expiredAt,
-    isAuthenticated,
-  };
+  const logout = useCallback(async () => {
+    _logout();
+    await router.navigate({ to: '/' });
+  }, [router, _logout]);
+
+  return { logout };
 };

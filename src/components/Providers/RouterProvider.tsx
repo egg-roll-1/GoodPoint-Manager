@@ -1,4 +1,4 @@
-import { useAuth } from '@/features/auth/hooks/useAuth'
+import { useAuthStore } from '@/features/auth/hooks/useAuthStore'
 import { routeTree } from '@/routeTree.gen'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
@@ -16,6 +16,6 @@ declare module '@tanstack/react-router' {
 }
 
 export const RouteProvider = () => {
-    const auth = useAuth()
+    const auth = useAuthStore((store) => store.context)
     return <RouterProvider router={router} context={{ auth }} />
 }
