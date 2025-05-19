@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { getAgency, getAgencyDetail, patchAgency, postAgency } from '../api/agency.api';
+import { useAgencyStore } from './useAgencyStore';
 
 export const agencyKeys = {
   all: 'agency',
@@ -7,7 +9,7 @@ export const agencyKeys = {
   detail_param: (id: number) => [agencyKeys.all, 'detail', id],
 };
 
-export const useVolunteerWork = () => {
+export const useAgency = () => {
   return useQuery({
     queryKey: agencyKeys.list(),
     queryFn: () => getAgency(),
@@ -33,7 +35,7 @@ export const useAgencyPost = () => {
   });
 };
 
-export const useVolunteerPatch = (id: number) => {
+export const useAgencyPatch = (id: number) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: patchAgency,
@@ -46,4 +48,17 @@ export const useVolunteerPatch = (id: number) => {
       });
     },
   });
+};
+
+export const useCurrentAgency = () => {
+  const { data: agencyList } = useAgency();
+  const { agencyId } = useAgencyStore((state) => state.context);
+  const { setAgency } = useAgencyStore((state) => state.actions);
+
+  useEffect(() => {
+    if (!agencyList || agencyList.length <= 0) return;
+    setAgency({ agencyId: agencyList[0]?.id });
+  }, [agencyList, setAgency]);
+
+  return agencyId ?? 0;
 };

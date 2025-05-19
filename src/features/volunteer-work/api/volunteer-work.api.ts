@@ -11,6 +11,8 @@ import type {
 } from '../model/volunteer-work.response';
 
 export const getVolunteerWork = async (request: GetVolunteerWorkRequest) => {
+  if (request.agencyId <= 0) return [];
+
   const { data } = await authAxios.get<ResultResponse<GetVolunteerWorkResponse[]>>(
     '/volunteer-work',
     {

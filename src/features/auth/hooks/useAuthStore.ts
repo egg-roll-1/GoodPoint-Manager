@@ -51,8 +51,8 @@ export const getAccessToken = () => {
   }
 
   try {
-    const authStore = JSON.parse(serializedAuthStore) as AuthState;
-    return authStore?.context?.accessToken;
+    const authStore = JSON.parse(serializedAuthStore);
+    return authStore?.state.context?.accessToken;
   } catch {
     return null;
   }

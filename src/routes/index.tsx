@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button'
-import { useLogout } from '@/features/auth/hooks/useAuth'
+import { Layout } from '@/components/Layout'
+import { Card, CardContent } from '@/components/ui/card'
+import { useAgency } from '@/features/agency/hooks/useAgency'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
@@ -17,12 +18,27 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
-    const { logout } = useLogout()
+    const { data: agencyList } = useAgency();
 
     return (
-        <div className="p-2">
-            <h3>Welcome Home!</h3>
-            <Button onClick={logout}>로그아웃</Button>
-        </div>
+        <Layout className='p-2'>
+            <div className='space-y-2'>
+                <div>
+                    <span className='font-semibold'>내 봉사기관</span>
+                </div>
+                {
+                    agencyList?.map(agency => {
+                        return <Card key={agency.id}>
+                            <CardContent>
+                                <div className='flex flex-col'>
+                                    <span className='text-sm'>{agency.type}</span>
+                                    <span className='font-medium'>{agency.title}</span>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    })
+                }
+            </div>
+        </Layout>
     )
 }

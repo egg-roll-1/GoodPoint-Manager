@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getVolunteerWork,
   getVolunteerWorkDetail,
+  patchVolunteerWork,
   postVolunteerWork,
   removeVolunteerWork,
 } from '../api/volunteer-work.api';
@@ -40,7 +41,22 @@ export const useVolunteerPost = () => {
   });
 };
 
-export const useVolunteerCancel = (id: number) => {
+export const useVolunteerPatch = (id: number) => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: patchVolunteerWork,
+    onSuccess: async () => {
+      await client.invalidateQueries({
+        queryKey: volunteerWorkKeys.list(),
+      });
+      await client.invalidateQueries({
+        queryKey: volunteerWorkKeys.detail_param(id),
+      });
+    },
+  });
+};
+
+export const useVolunteerRemove = (id: number) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: removeVolunteerWork,
