@@ -34,7 +34,7 @@ export const getVolunteerWorkDetail = async (id: number) => {
 export const postVolunteerWork = async (
   request: PostVolunteerWorkRequest & { agencyId: number },
 ) => {
-  const { data } = await authAxios.post<ResultResponse<undefined>>('/volunteer-work', request);
+  const { data } = await authAxios.post<ResultResponse<number>>('/volunteer-work', request);
   return data.result;
 };
 

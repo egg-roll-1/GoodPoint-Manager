@@ -16,6 +16,7 @@ import { Route as MyImport } from './routes/my'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as VolunteerIndexImport } from './routes/volunteer/index'
+import { Route as VolunteerNewImport } from './routes/volunteer/new'
 import { Route as VolunteerVolunteerIdIndexImport } from './routes/volunteer/$volunteerId/index'
 import { Route as VolunteerVolunteerIdRequestImport } from './routes/volunteer/$volunteerId/request'
 
@@ -48,6 +49,12 @@ const IndexRoute = IndexImport.update({
 const VolunteerIndexRoute = VolunteerIndexImport.update({
   id: '/volunteer/',
   path: '/volunteer/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VolunteerNewRoute = VolunteerNewImport.update({
+  id: '/volunteer/new',
+  path: '/volunteer/new',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -96,6 +103,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/volunteer/new': {
+      id: '/volunteer/new'
+      path: '/volunteer/new'
+      fullPath: '/volunteer/new'
+      preLoaderRoute: typeof VolunteerNewImport
+      parentRoute: typeof rootRoute
+    }
     '/volunteer/': {
       id: '/volunteer/'
       path: '/volunteer'
@@ -127,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
   '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
@@ -137,6 +152,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
   '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
@@ -148,6 +164,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer/': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
   '/volunteer/$volunteerId/': typeof VolunteerVolunteerIdIndexRoute
@@ -160,6 +177,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/volunteer/new'
     | '/volunteer'
     | '/volunteer/$volunteerId/request'
     | '/volunteer/$volunteerId'
@@ -169,6 +187,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/volunteer/new'
     | '/volunteer'
     | '/volunteer/$volunteerId/request'
     | '/volunteer/$volunteerId'
@@ -178,6 +197,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/volunteer/new'
     | '/volunteer/'
     | '/volunteer/$volunteerId/request'
     | '/volunteer/$volunteerId/'
@@ -189,6 +209,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MyRoute: typeof MyRoute
   SignupRoute: typeof SignupRoute
+  VolunteerNewRoute: typeof VolunteerNewRoute
   VolunteerIndexRoute: typeof VolunteerIndexRoute
   VolunteerVolunteerIdRequestRoute: typeof VolunteerVolunteerIdRequestRoute
   VolunteerVolunteerIdIndexRoute: typeof VolunteerVolunteerIdIndexRoute
@@ -199,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MyRoute: MyRoute,
   SignupRoute: SignupRoute,
+  VolunteerNewRoute: VolunteerNewRoute,
   VolunteerIndexRoute: VolunteerIndexRoute,
   VolunteerVolunteerIdRequestRoute: VolunteerVolunteerIdRequestRoute,
   VolunteerVolunteerIdIndexRoute: VolunteerVolunteerIdIndexRoute,
@@ -218,6 +240,7 @@ export const routeTree = rootRoute
         "/login",
         "/my",
         "/signup",
+        "/volunteer/new",
         "/volunteer/",
         "/volunteer/$volunteerId/request",
         "/volunteer/$volunteerId/"
@@ -234,6 +257,9 @@ export const routeTree = rootRoute
     },
     "/signup": {
       "filePath": "signup.tsx"
+    },
+    "/volunteer/new": {
+      "filePath": "volunteer/new.tsx"
     },
     "/volunteer/": {
       "filePath": "volunteer/index.tsx"

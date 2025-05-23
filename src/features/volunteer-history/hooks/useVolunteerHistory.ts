@@ -19,7 +19,7 @@ export const useVolunteerHistory = (request: GetVolunteerHistoryRequest) => {
   });
 };
 
-export const useVolunteerPost = () => {
+export const useVolunteerHistoryPost = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: postVolunteerHistory,
@@ -31,7 +31,7 @@ export const useVolunteerPost = () => {
   });
 };
 
-export const useVolunteerCancel = () => {
+export const useVolunteerHistoryCancel = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: cancelVolunteerHistory,

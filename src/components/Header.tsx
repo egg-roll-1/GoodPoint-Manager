@@ -24,7 +24,7 @@ export const Header: FC<HeaderProps> = ({
     }, [back, router.history])
 
     return <header className="sticky left-0 top-0 bg-background z-50">
-        <div className="shadow p-1 flex items-center justify-between">
+        <div className="p-1 flex items-center justify-between">
             <div>
                 {back && <Button variant={'ghost'} onClick={onClickBack}>
                     <ArrowLeft />

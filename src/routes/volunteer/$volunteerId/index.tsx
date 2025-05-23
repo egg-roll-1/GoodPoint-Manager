@@ -2,11 +2,11 @@ import { Layout } from '@/components/Layout'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { VolunteerWorkBaseForm } from '@/features/volunteer-work/containers/VolunteerWorkBaseForm'
-import { useVolunteerPatch, useVolunteerWorkDetail } from '@/features/volunteer-work/hooks/useVolunteerWork'
+import { useVolunteerPatch, useVolunteerRemove, useVolunteerWorkDetail } from '@/features/volunteer-work/hooks/useVolunteerWork'
 import { PostVolunteerWorkForm, type PostVolunteerWorkRequest } from '@/features/volunteer-work/model/volunteer-work.request'
 import { KSTDate } from '@/lib/date'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { createFileRoute, useParams, useRouter } from '@tanstack/react-router'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -19,8 +19,11 @@ export const VolunteerWorkPatchFormId = 'volunteer-work-patch-form'
 function RouteComponent() {
   const { volunteerId: _volunteerId } = useParams({ from: '/volunteer/$volunteerId/' })
   const id = Number(_volunteerId);
+
+  const router = useRouter();
   const { data: volunteerWork } = useVolunteerWorkDetail(id);
-  const { mutate: patch, isPending } = useVolunteerPatch(id);
+  const { mutate: patch, isPending: isPatching } = useVolunteerPatch(id);
+  const { mutate: remove, isPending: isRemoving } = useVolunteerRemove(id)
   const [editMode, setEditMode] = useState(false)
 
   const form = useForm<PostVolunteerWorkRequest>({
@@ -66,6 +69,7 @@ function RouteComponent() {
     form.setValue('notice', volunteerWork.notice);
     form.setValue('workAddress', volunteerWork.workAddress);
     form.setValue('workPlace', volunteerWork.workPlace);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volunteerWork])
 
@@ -73,6 +77,14 @@ function RouteComponent() {
     setEditMode(false);
     fillWithData();
   }, [fillWithData])
+
+  const onRemove = useCallback(() => {
+    remove({ id }, {
+      onSuccess: () => {
+        router.history.back();
+      }
+    })
+  }, [id, remove, router.history])
 
 
   useEffect(() => {
@@ -86,21 +98,23 @@ function RouteComponent() {
     right={
       <div>
         {editMode && <div className='space-x-2'>
-          <Button
-            variant={'destructive'}
-            onClick={onCancel}
-          >
+          <Button variant={'destructive'} onClick={onCancel}>
             취소
           </Button>
           <Button
             type='submit'
             form={VolunteerWorkPatchFormId}>
-            {`저장${isPending ? '중...' : ''}`}
+            {`저장${isPatching ? '중...' : ''}`}
           </Button>
         </div>}
-        {!editMode && <Button onClick={() => setEditMode(true)}>
-          수정
-        </Button>}
+        {!editMode && <div className='space-x-2'>
+          <Button variant={'destructive'} onClick={onRemove}>
+            {`삭제${isRemoving ? '중...' : ''}`}
+          </Button>
+          <Button onClick={() => setEditMode(true)}>
+            수정
+          </Button>
+        </div>}
       </div>
     }
   >

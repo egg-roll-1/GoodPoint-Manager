@@ -18,7 +18,19 @@ function VolunteerWork() {
     const { data: volunteerWorkList } = useVolunteerWork({ agencyId })
 
     return (
-        <Layout className='p-2'>
+        <Layout className='p-2'
+            title={'GoodPoint'}
+            right={
+                <div>
+                    <div className='space-x-2'>
+                        <Link to='/volunteer/new'>
+                            <Button>
+                                {`추가`}
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
+            }>
             <div className='space-y-2 overflow-y-scroll'>
                 {
                     volunteerWorkList?.map((work) => (
