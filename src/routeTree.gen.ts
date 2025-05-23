@@ -16,7 +16,8 @@ import { Route as MyImport } from './routes/my'
 import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as VolunteerIndexImport } from './routes/volunteer/index'
-import { Route as VolunteerVolunteerIdImport } from './routes/volunteer/$volunteerId'
+import { Route as VolunteerVolunteerIdIndexImport } from './routes/volunteer/$volunteerId/index'
+import { Route as VolunteerVolunteerIdRequestImport } from './routes/volunteer/$volunteerId/request'
 
 // Create/Update Routes
 
@@ -50,11 +51,18 @@ const VolunteerIndexRoute = VolunteerIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const VolunteerVolunteerIdRoute = VolunteerVolunteerIdImport.update({
-  id: '/volunteer/$volunteerId',
-  path: '/volunteer/$volunteerId',
+const VolunteerVolunteerIdIndexRoute = VolunteerVolunteerIdIndexImport.update({
+  id: '/volunteer/$volunteerId/',
+  path: '/volunteer/$volunteerId/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const VolunteerVolunteerIdRequestRoute =
+  VolunteerVolunteerIdRequestImport.update({
+    id: '/volunteer/$volunteerId/request',
+    path: '/volunteer/$volunteerId/request',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -88,18 +96,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
-    '/volunteer/$volunteerId': {
-      id: '/volunteer/$volunteerId'
-      path: '/volunteer/$volunteerId'
-      fullPath: '/volunteer/$volunteerId'
-      preLoaderRoute: typeof VolunteerVolunteerIdImport
-      parentRoute: typeof rootRoute
-    }
     '/volunteer/': {
       id: '/volunteer/'
       path: '/volunteer'
       fullPath: '/volunteer'
       preLoaderRoute: typeof VolunteerIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/volunteer/$volunteerId/request': {
+      id: '/volunteer/$volunteerId/request'
+      path: '/volunteer/$volunteerId/request'
+      fullPath: '/volunteer/$volunteerId/request'
+      preLoaderRoute: typeof VolunteerVolunteerIdRequestImport
+      parentRoute: typeof rootRoute
+    }
+    '/volunteer/$volunteerId/': {
+      id: '/volunteer/$volunteerId/'
+      path: '/volunteer/$volunteerId'
+      fullPath: '/volunteer/$volunteerId'
+      preLoaderRoute: typeof VolunteerVolunteerIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -112,8 +127,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
-  '/volunteer/$volunteerId': typeof VolunteerVolunteerIdRoute
   '/volunteer': typeof VolunteerIndexRoute
+  '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -121,8 +137,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
-  '/volunteer/$volunteerId': typeof VolunteerVolunteerIdRoute
   '/volunteer': typeof VolunteerIndexRoute
+  '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -131,8 +148,9 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
-  '/volunteer/$volunteerId': typeof VolunteerVolunteerIdRoute
   '/volunteer/': typeof VolunteerIndexRoute
+  '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/volunteer/$volunteerId/': typeof VolunteerVolunteerIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -142,24 +160,27 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
-    | '/volunteer/$volunteerId'
     | '/volunteer'
+    | '/volunteer/$volunteerId/request'
+    | '/volunteer/$volunteerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/my'
     | '/signup'
-    | '/volunteer/$volunteerId'
     | '/volunteer'
+    | '/volunteer/$volunteerId/request'
+    | '/volunteer/$volunteerId'
   id:
     | '__root__'
     | '/'
     | '/login'
     | '/my'
     | '/signup'
-    | '/volunteer/$volunteerId'
     | '/volunteer/'
+    | '/volunteer/$volunteerId/request'
+    | '/volunteer/$volunteerId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -168,8 +189,9 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MyRoute: typeof MyRoute
   SignupRoute: typeof SignupRoute
-  VolunteerVolunteerIdRoute: typeof VolunteerVolunteerIdRoute
   VolunteerIndexRoute: typeof VolunteerIndexRoute
+  VolunteerVolunteerIdRequestRoute: typeof VolunteerVolunteerIdRequestRoute
+  VolunteerVolunteerIdIndexRoute: typeof VolunteerVolunteerIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -177,8 +199,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MyRoute: MyRoute,
   SignupRoute: SignupRoute,
-  VolunteerVolunteerIdRoute: VolunteerVolunteerIdRoute,
   VolunteerIndexRoute: VolunteerIndexRoute,
+  VolunteerVolunteerIdRequestRoute: VolunteerVolunteerIdRequestRoute,
+  VolunteerVolunteerIdIndexRoute: VolunteerVolunteerIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -195,8 +218,9 @@ export const routeTree = rootRoute
         "/login",
         "/my",
         "/signup",
-        "/volunteer/$volunteerId",
-        "/volunteer/"
+        "/volunteer/",
+        "/volunteer/$volunteerId/request",
+        "/volunteer/$volunteerId/"
       ]
     },
     "/": {
@@ -211,11 +235,14 @@ export const routeTree = rootRoute
     "/signup": {
       "filePath": "signup.tsx"
     },
-    "/volunteer/$volunteerId": {
-      "filePath": "volunteer/$volunteerId.tsx"
-    },
     "/volunteer/": {
       "filePath": "volunteer/index.tsx"
+    },
+    "/volunteer/$volunteerId/request": {
+      "filePath": "volunteer/$volunteerId/request.tsx"
+    },
+    "/volunteer/$volunteerId/": {
+      "filePath": "volunteer/$volunteerId/index.tsx"
     }
   }
 }

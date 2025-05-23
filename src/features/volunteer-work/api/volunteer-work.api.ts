@@ -31,14 +31,16 @@ export const getVolunteerWorkDetail = async (id: number) => {
   return data.result;
 };
 
-export const postVolunteerWork = async (request: PostVolunteerWorkRequest) => {
+export const postVolunteerWork = async (
+  request: PostVolunteerWorkRequest & { agencyId: number },
+) => {
   const { data } = await authAxios.post<ResultResponse<undefined>>('/volunteer-work', request);
   return data.result;
 };
 
 export const patchVolunteerWork = async (request: PatchVolunteerWorkRequest & { id: number }) => {
   const { id, ..._request } = request;
-  const { data } = await authAxios.post<ResultResponse<undefined>>(
+  const { data } = await authAxios.patch<ResultResponse<undefined>>(
     `/volunteer-work/${id}`,
     _request,
   );
