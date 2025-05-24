@@ -1,7 +1,7 @@
 export interface GetVolunteerHistoryRequest {
   volunteerWorkId: number;
-  startDateTime: Date;
-  endDateTime: Date;
+  startDateTime?: Date;
+  endDateTime?: Date;
 }
 
 export interface PostVolunteerHistoryRequest {

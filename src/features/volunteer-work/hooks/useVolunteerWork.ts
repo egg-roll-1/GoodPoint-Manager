@@ -56,16 +56,13 @@ export const useVolunteerPatch = (id: number) => {
   });
 };
 
-export const useVolunteerRemove = (id: number) => {
+export const useVolunteerRemove = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: removeVolunteerWork,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerWorkKeys.list(),
-      });
-      await client.invalidateQueries({
-        queryKey: volunteerWorkKeys.detail_param(id),
       });
     },
   });

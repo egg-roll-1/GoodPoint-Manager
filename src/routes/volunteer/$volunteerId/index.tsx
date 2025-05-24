@@ -23,7 +23,7 @@ function RouteComponent() {
   const router = useRouter();
   const { data: volunteerWork } = useVolunteerWorkDetail(id);
   const { mutate: patch, isPending: isPatching } = useVolunteerPatch(id);
-  const { mutate: remove, isPending: isRemoving } = useVolunteerRemove(id)
+  const { mutate: remove, isPending: isRemoving } = useVolunteerRemove();
   const [editMode, setEditMode] = useState(false)
 
   const form = useForm<PostVolunteerWorkRequest>({

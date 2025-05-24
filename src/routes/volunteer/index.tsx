@@ -61,14 +61,23 @@ function VolunteerWork() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <div className='w-full'>
+                                <div className='w-full flex space-x-2'>
                                     <Link
                                         to='/volunteer/$volunteerId/request'
                                         params={{ volunteerId: `${work.id}` }}
                                         className='w-full'
                                     >
-                                        <Button className='w-full'>
+                                        <Button className='w-full' variant={'default'}>
                                             신청현황
+                                        </Button>
+                                    </Link>
+                                    <Link
+                                        to='/volunteer/$volunteerId/history'
+                                        params={{ volunteerId: `${work.id}` }}
+                                        className='w-full'
+                                    >
+                                        <Button className='w-full' variant={'default'}>
+                                            활동인정 관리
                                         </Button>
                                     </Link>
                                 </div>

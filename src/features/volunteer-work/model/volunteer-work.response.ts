@@ -18,6 +18,7 @@ export interface GetVolunteerWorkResponse {
   recruitPeopleCount: number;
   workAddress: string;
   workPlace: string;
+  dateList: Date[];
 }
 
 export interface VolunteerWorkRequest {
