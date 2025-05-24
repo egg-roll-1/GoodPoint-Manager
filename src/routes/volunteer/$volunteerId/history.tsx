@@ -10,7 +10,7 @@ import type { VolunteerRequestResponse } from '@/features/volunteer-request/mode
 import { useVolunteerWorkDetail } from '@/features/volunteer-work/hooks/useVolunteerWork'
 import { KSTDate } from '@/lib/date'
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { groupBy, isNumber } from 'es-toolkit/compat'
+import { groupBy, isNaN } from 'es-toolkit/compat'
 import { useCallback, useRef, type FC } from 'react'
 
 export const Route = createFileRoute('/volunteer/$volunteerId/history')({
@@ -76,7 +76,7 @@ export const VolunteerHistoryCard: FC<CardProps> = ({ historyList, request, date
     const { userId, volunteerWork } = request;
     const startDate = KSTDate(date).startOf('day').add(volunteerWork.startMinute);
     const inputValue = Number(inputRef.current?.value) * 60;
-    const minute = isNumber(inputRef.current?.value) ? inputValue : (volunteerWork.endMinute - volunteerWork.startMinute);
+    const minute = !isNaN(inputValue) ? inputValue : (volunteerWork.endMinute - volunteerWork.startMinute);
 
     postHistory({
       userId,
@@ -118,7 +118,7 @@ export const VolunteerHistoryCard: FC<CardProps> = ({ historyList, request, date
         <Input
           ref={inputRef}
           inputMode='numeric'
-          value={(volunteerWork.endMinute - volunteerWork.startMinute) / 60}
+          defaultValue={(volunteerWork.endMinute - volunteerWork.startMinute) / 60}
         />
         <Button
           size={'sm'}
