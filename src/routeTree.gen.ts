@@ -17,7 +17,9 @@ import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as VolunteerIndexImport } from './routes/volunteer/index'
 import { Route as VolunteerNewImport } from './routes/volunteer/new'
+import { Route as AgencyNewImport } from './routes/agency/new'
 import { Route as VolunteerVolunteerIdIndexImport } from './routes/volunteer/$volunteerId/index'
+import { Route as AgencyAgencyIdIndexImport } from './routes/agency/$agencyId/index'
 import { Route as VolunteerVolunteerIdRequestImport } from './routes/volunteer/$volunteerId/request'
 import { Route as VolunteerVolunteerIdHistoryImport } from './routes/volunteer/$volunteerId/history'
 
@@ -59,9 +61,21 @@ const VolunteerNewRoute = VolunteerNewImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AgencyNewRoute = AgencyNewImport.update({
+  id: '/agency/new',
+  path: '/agency/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const VolunteerVolunteerIdIndexRoute = VolunteerVolunteerIdIndexImport.update({
   id: '/volunteer/$volunteerId/',
   path: '/volunteer/$volunteerId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AgencyAgencyIdIndexRoute = AgencyAgencyIdIndexImport.update({
+  id: '/agency/$agencyId/',
+  path: '/agency/$agencyId/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -111,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/agency/new': {
+      id: '/agency/new'
+      path: '/agency/new'
+      fullPath: '/agency/new'
+      preLoaderRoute: typeof AgencyNewImport
+      parentRoute: typeof rootRoute
+    }
     '/volunteer/new': {
       id: '/volunteer/new'
       path: '/volunteer/new'
@@ -139,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VolunteerVolunteerIdRequestImport
       parentRoute: typeof rootRoute
     }
+    '/agency/$agencyId/': {
+      id: '/agency/$agencyId/'
+      path: '/agency/$agencyId'
+      fullPath: '/agency/$agencyId'
+      preLoaderRoute: typeof AgencyAgencyIdIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/volunteer/$volunteerId/': {
       id: '/volunteer/$volunteerId/'
       path: '/volunteer/$volunteerId'
@@ -156,10 +184,12 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/agency/new': typeof AgencyNewRoute
   '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/history': typeof VolunteerVolunteerIdHistoryRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/agency/$agencyId': typeof AgencyAgencyIdIndexRoute
   '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
 }
 
@@ -168,10 +198,12 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/agency/new': typeof AgencyNewRoute
   '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/history': typeof VolunteerVolunteerIdHistoryRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/agency/$agencyId': typeof AgencyAgencyIdIndexRoute
   '/volunteer/$volunteerId': typeof VolunteerVolunteerIdIndexRoute
 }
 
@@ -181,10 +213,12 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/my': typeof MyRoute
   '/signup': typeof SignupRoute
+  '/agency/new': typeof AgencyNewRoute
   '/volunteer/new': typeof VolunteerNewRoute
   '/volunteer/': typeof VolunteerIndexRoute
   '/volunteer/$volunteerId/history': typeof VolunteerVolunteerIdHistoryRoute
   '/volunteer/$volunteerId/request': typeof VolunteerVolunteerIdRequestRoute
+  '/agency/$agencyId/': typeof AgencyAgencyIdIndexRoute
   '/volunteer/$volunteerId/': typeof VolunteerVolunteerIdIndexRoute
 }
 
@@ -195,10 +229,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/agency/new'
     | '/volunteer/new'
     | '/volunteer'
     | '/volunteer/$volunteerId/history'
     | '/volunteer/$volunteerId/request'
+    | '/agency/$agencyId'
     | '/volunteer/$volunteerId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -206,10 +242,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/agency/new'
     | '/volunteer/new'
     | '/volunteer'
     | '/volunteer/$volunteerId/history'
     | '/volunteer/$volunteerId/request'
+    | '/agency/$agencyId'
     | '/volunteer/$volunteerId'
   id:
     | '__root__'
@@ -217,10 +255,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/my'
     | '/signup'
+    | '/agency/new'
     | '/volunteer/new'
     | '/volunteer/'
     | '/volunteer/$volunteerId/history'
     | '/volunteer/$volunteerId/request'
+    | '/agency/$agencyId/'
     | '/volunteer/$volunteerId/'
   fileRoutesById: FileRoutesById
 }
@@ -230,10 +270,12 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MyRoute: typeof MyRoute
   SignupRoute: typeof SignupRoute
+  AgencyNewRoute: typeof AgencyNewRoute
   VolunteerNewRoute: typeof VolunteerNewRoute
   VolunteerIndexRoute: typeof VolunteerIndexRoute
   VolunteerVolunteerIdHistoryRoute: typeof VolunteerVolunteerIdHistoryRoute
   VolunteerVolunteerIdRequestRoute: typeof VolunteerVolunteerIdRequestRoute
+  AgencyAgencyIdIndexRoute: typeof AgencyAgencyIdIndexRoute
   VolunteerVolunteerIdIndexRoute: typeof VolunteerVolunteerIdIndexRoute
 }
 
@@ -242,10 +284,12 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MyRoute: MyRoute,
   SignupRoute: SignupRoute,
+  AgencyNewRoute: AgencyNewRoute,
   VolunteerNewRoute: VolunteerNewRoute,
   VolunteerIndexRoute: VolunteerIndexRoute,
   VolunteerVolunteerIdHistoryRoute: VolunteerVolunteerIdHistoryRoute,
   VolunteerVolunteerIdRequestRoute: VolunteerVolunteerIdRequestRoute,
+  AgencyAgencyIdIndexRoute: AgencyAgencyIdIndexRoute,
   VolunteerVolunteerIdIndexRoute: VolunteerVolunteerIdIndexRoute,
 }
 
@@ -263,10 +307,12 @@ export const routeTree = rootRoute
         "/login",
         "/my",
         "/signup",
+        "/agency/new",
         "/volunteer/new",
         "/volunteer/",
         "/volunteer/$volunteerId/history",
         "/volunteer/$volunteerId/request",
+        "/agency/$agencyId/",
         "/volunteer/$volunteerId/"
       ]
     },
@@ -282,6 +328,9 @@ export const routeTree = rootRoute
     "/signup": {
       "filePath": "signup.tsx"
     },
+    "/agency/new": {
+      "filePath": "agency/new.tsx"
+    },
     "/volunteer/new": {
       "filePath": "volunteer/new.tsx"
     },
@@ -293,6 +342,9 @@ export const routeTree = rootRoute
     },
     "/volunteer/$volunteerId/request": {
       "filePath": "volunteer/$volunteerId/request.tsx"
+    },
+    "/agency/$agencyId/": {
+      "filePath": "agency/$agencyId/index.tsx"
     },
     "/volunteer/$volunteerId/": {
       "filePath": "volunteer/$volunteerId/index.tsx"

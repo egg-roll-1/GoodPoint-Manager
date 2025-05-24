@@ -1,7 +1,7 @@
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useCurrentAgency } from '@/features/agency/hooks/useAgency';
+import { useAgencyDetail, useCurrentAgency } from '@/features/agency/hooks/useAgency';
 import { dayOfWeek2Title } from '@/features/common/day';
 import { useVolunteerWork } from '@/features/volunteer-work/hooks/useVolunteerWork';
 import { KSTDate } from '@/lib/date';
@@ -15,11 +15,16 @@ export const Route = createFileRoute('/volunteer/')({
 
 function VolunteerWork() {
     const agencyId = useCurrentAgency();
+    const { data: agencyDetail } = useAgencyDetail(agencyId)
     const { data: volunteerWorkList } = useVolunteerWork({ agencyId })
 
     return (
         <Layout className='p-2'
-            title={'GoodPoint'}
+            title={
+                <span className='font-semibold'>
+                    '{agencyDetail?.title ?? ''}' 봉사활동
+                </span>
+            }
             right={
                 <div>
                     <div className='space-x-2'>

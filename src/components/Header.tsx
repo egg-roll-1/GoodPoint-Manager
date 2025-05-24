@@ -15,7 +15,6 @@ export const Header: FC<HeaderProps> = ({
     title = <span>Good Point</span>
 }) => {
     const router = useRouter();
-    console.log('back: ', back)
 
     const onClickBack = useCallback(() => {
         if (back) {

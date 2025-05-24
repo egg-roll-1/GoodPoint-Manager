@@ -14,17 +14,16 @@ export const getAgencyDetail = async (id: number) => {
 };
 
 export const postAgency = async (request: PostAgencyRequest) => {
-  const { data } = await authAxios.post<ResultResponse<undefined>>('/agency', request);
+  const { data } = await authAxios.post<ResultResponse<number>>('/agency', request);
   return data.result;
 };
 
 export const patchAgency = async (request: PatchAgencyRequest & { id: number }) => {
   const { id, ..._request } = request;
-  const { data } = await authAxios.post<ResultResponse<undefined>>(`/agency/${id}`, _request);
+  const { data } = await authAxios.patch<ResultResponse<undefined>>(`/agency/${id}`, _request);
   return data.result;
 };
 
-/** @todo 백엔드 기능 추가 필요 */
 export const removeAgency = async ({ id }: { id: number }) => {
   const { data } = await authAxios.delete<ResultResponse<undefined>>(`/agency/${id}`);
   return data.result;
