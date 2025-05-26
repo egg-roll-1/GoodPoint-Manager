@@ -77,11 +77,11 @@ function LoginPage() {
                                     <Button type='submit' className='w-full' disabled={isPending}>
                                         {isPending ? '로그인중...' : '로그인'}
                                     </Button>
-                                    <Button className='w-full' variant={'outline'}>
-                                        <Link to='/signup' search={{ redirect: '' }}>
+                                    <Link to='/signup' search={{ redirect: '' }}>
+                                        <Button className='w-full' variant={'outline'}>
                                             회원가입
-                                        </Link>
-                                    </Button>
+                                        </Button>
+                                    </Link>
                                 </div>
                             </form>
                         </Form>
