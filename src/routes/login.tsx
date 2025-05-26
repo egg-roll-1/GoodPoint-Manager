@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { useLogin } from '@/features/auth/hooks/useAuth'
 import { LoginForm, type LoginRequest } from '@/features/auth/model/auth.request'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -73,9 +73,16 @@ function LoginPage() {
                                         )}
                                     />
                                 </div>
-                                <Button type='submit' className='w-full' disabled={isPending}>
-                                    {isPending ? '로그인중...' : '로그인'}
-                                </Button>
+                                <div className='space-y-3'>
+                                    <Button type='submit' className='w-full' disabled={isPending}>
+                                        {isPending ? '로그인중...' : '로그인'}
+                                    </Button>
+                                    <Button className='w-full' variant={'outline'}>
+                                        <Link to='/signup' search={{ redirect: '' }}>
+                                            회원가입
+                                        </Link>
+                                    </Button>
+                                </div>
                             </form>
                         </Form>
                     </CardContent>

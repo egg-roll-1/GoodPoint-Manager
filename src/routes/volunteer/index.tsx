@@ -22,7 +22,7 @@ function VolunteerWork() {
         <Layout className='p-2'
             title={
                 <span className='font-semibold'>
-                    '{agencyDetail?.title ?? ''}' 봉사활동
+                    {agencyDetail ? `'${agencyDetail?.title}'` : ''} 봉사활동
                 </span>
             }
             right={
