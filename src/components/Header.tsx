@@ -12,7 +12,7 @@ export type HeaderProps = {
 export const Header: FC<HeaderProps> = ({
     back: back,
     right,
-    title = <span>Good Point</span>
+    title = <div className="py-1 font-medium">Good Point</div>
 }) => {
     const router = useRouter();
 
@@ -30,7 +30,7 @@ export const Header: FC<HeaderProps> = ({
                 </Button>}
                 {back
                     ? title
-                    : <Link to="/" className="p-2">
+                    : <Link to="/" className="">
                         {title}
                     </Link>}
             </div>

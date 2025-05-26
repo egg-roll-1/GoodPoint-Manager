@@ -97,7 +97,7 @@ export const VolunteerHistoryCard: FC<CardProps> = ({ historyList, request, date
       {
         history
           ? <Badge>{history.minute / 60}시간 출석</Badge>
-          : <Badge variant={'outline'}>결석</Badge>
+          : <Badge variant={'outline'}>미결</Badge>
       }
       <span>{request.name}</span>
       <span>{request.phoneNumber}</span>
@@ -114,12 +114,16 @@ export const VolunteerHistoryCard: FC<CardProps> = ({ historyList, request, date
           {`취소${isRemoving ? '중...' : ''}`}
         </Button>
       </div>
-      : <div className='flex flex-1 items-center'>
-        <Input
-          ref={inputRef}
-          inputMode='numeric'
-          defaultValue={(volunteerWork.endMinute - volunteerWork.startMinute) / 60}
-        />
+      : <div className='flex flex-1 items-center justify-between'>
+        <div className='flex items-center space-x-1'>
+          <Input
+            className='w-15'
+            ref={inputRef}
+            inputMode='numeric'
+            defaultValue={(volunteerWork.endMinute - volunteerWork.startMinute) / 60}
+          />
+          <span>시간</span>
+        </div>
         <Button
           size={'sm'}
           onClick={handleHistory}

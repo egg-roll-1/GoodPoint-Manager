@@ -48,12 +48,13 @@ function RouteComponent() {
     }, [fillWithData])
 
     return <Layout
-        title={<span className='font-semibold'>{`'${agency?.title}'`}</span>}
+        title={<span className='font-semibold'>{`봉사기관 편집`}</span>}
         right={<div>
             <Button type='submit' form={AgencyPatchFormId}>
                 {`저장${isPatching ? '중...' : ''}`}
             </Button>
         </div>}
+        back
     >
         <div>
             <Form {...form}>
