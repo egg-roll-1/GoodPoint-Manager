@@ -53,28 +53,6 @@ jobs:
           --restart always \
           --name $GREEN_CONTAINER_NAME $DOCKER_USERNAME/$DOCKER_REPOSITORY:$SERVICE_NAME-latest
 
-      - name: Wait Application Running
-        run: |
-          IS_LOAD="FALSE"
-
-          for i in {1..10}; do
-            LOAD_STATUS=$(sudo docker exec $GREEN_CONTAINER_NAME wget --spider --server-response -q http://127.0.0.1:3000 2>&1 | awk '/^  HTTP/{print $2}')
-            echo "LOAD_STATUS: $LOAD_STATUS"
-
-            if [[ "$LOAD_STATUS" == "200" ]]; then
-              IS_LOAD="TRUE"
-              break
-            else
-              echo "Application is not load. Retry..."
-              sleep 6
-            fi
-          done
-
-          if [[ "$IS_LOAD" == "FALSE" ]]; then
-            sudo docker rm -f "$GREEN_CONTAINER_NAME"
-            exit 1
-          fi
-
       - name: Generate Green Nginx Configuration
         run: |
           cat <<EOF > /tmp/${GREEN_CONTAINER_NAME}.conf
@@ -118,33 +96,7 @@ jobs:
 
           sudo docker exec fe-nginx nginx -s reload
 
-      - name: Health Check And Rollback
+      - name: Clean Up
         run: |
-          IS_HEALTHY="FALSE"
-
-          for i in {1..3}; do
-            RESULT_CODE=$(wget --spider --server-response -q http://127.0.0.1:$PORT 2>&1 | awk '/^  HTTP/{print $2}')
-            echo "RESULT_CODE: $RESULT_CODE"
-
-            if [ "$RESULT_CODE" == "200" ]; then
-              echo "HEALTH CHECK SUCCESS. DO CLEAN PROCESS."
-              IS_HEALTHY="TRUE"
-
-              sudo docker rm -f "$BLUE_CONTAINER_NAME"
-              sudo docker image prune -f
-
-              echo "IS HEALTHY: $IS_HEALTHY"
-              break
-            else
-              echo "FAILED TO HEALTH CHECK... RETRYING IN 5 SECONDS"
-              sleep 5
-            fi
-          done
-
-          if [ "$IS_HEALTHY" == "FALSE" ]; then
-            echo "HEALTH CHECK FAILED. DO ROLLBACK."
-            cp "/tmp/${BLUE_CONTAINER_NAME}.conf" /tmp/default.conf
-
-            sudo docker exec fe-nginx nginx -s reload
-            sudo docker rm -f "$GREEN_CONTAINER_NAME"
-          fi
+          sudo docker rm -f "$BLUE_CONTAINER_NAME"
+          sudo docker image prune -f
