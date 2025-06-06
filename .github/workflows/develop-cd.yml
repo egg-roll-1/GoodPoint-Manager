@@ -61,7 +61,7 @@ jobs:
               client_max_body_size 300M;
 
               location / {
-                  proxy_pass http://${GREEN_CONTAINER_NAME}:${PORT};
+                  proxy_pass http://${GREEN_CONTAINER_NAME}:3000;
               }
           }
           EOF
@@ -74,7 +74,7 @@ jobs:
               client_max_body_size 300M;
 
               location / {
-                  proxy_pass http://${BLUE_CONTAINER_NAME}:${PORT};
+                  proxy_pass http://${BLUE_CONTAINER_NAME}:3000;
               }
           }
           EOF
