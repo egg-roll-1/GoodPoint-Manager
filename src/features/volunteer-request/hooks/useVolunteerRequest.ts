@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   approveVolunteerRequest,
@@ -24,6 +25,7 @@ export const useVolunteerRequestApprove = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: approveVolunteerRequest,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({ queryKey: volunteerRequestKeys.list() });
     },
@@ -34,6 +36,7 @@ export const useVolunteerRequestReject = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: rejectVolunteerRequest,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({ queryKey: volunteerRequestKeys.list() });
     },

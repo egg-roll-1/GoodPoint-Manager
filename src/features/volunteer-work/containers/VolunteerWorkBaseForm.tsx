@@ -44,7 +44,7 @@ export const VolunteerWorkBaseForm: FC<Props> = ({ form }) => {
                         <Input
                             inputMode="numeric"
                             {...field}
-                            onChange={(e) => field.onChange(replace(e.target.value, /[^0-9]/g, ''))}
+                            onChange={(e) => field.onChange(Number(replace(e.target.value, /[^0-9]/g, '')))}
                         />
                     </FormControl>
                     <FormMessage />

@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   getVolunteerWork,
@@ -33,6 +34,7 @@ export const useVolunteerPost = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: postVolunteerWork,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerWorkKeys.list(),
@@ -45,6 +47,7 @@ export const useVolunteerPatch = (id: number) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: patchVolunteerWork,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerWorkKeys.list(),
@@ -60,6 +63,7 @@ export const useVolunteerRemove = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: removeVolunteerWork,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerWorkKeys.list(),

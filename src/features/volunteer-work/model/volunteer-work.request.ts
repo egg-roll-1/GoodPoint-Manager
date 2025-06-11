@@ -6,7 +6,7 @@ export interface GetVolunteerWorkRequest {
 }
 
 export const PostVolunteerWorkForm = z.object({
-  title: z.string(),
+  title: z.string().min(1, '봉사활동명을 입력해주세요!'),
   startDate: z.date(),
   endDate: z.date(),
   startMinute: z.number().min(0).max(1440),
@@ -14,10 +14,10 @@ export const PostVolunteerWorkForm = z.object({
   recruitStartDate: z.date(),
   recruitEndDate: z.date(),
   dayOfWeek: z.array(DayOfWeekSchema),
-  recruitPeopleCount: z.number().min(0),
-  notice: z.string(),
-  workAddress: z.string(),
-  workPlace: z.string(),
+  recruitPeopleCount: z.number().min(0, '올바른 모집인원을 입력해주세요!'),
+  notice: z.string().min(1, '공지사항을 입력해주세요!'),
+  workAddress: z.string().min(1, '봉사활동 주소를 입력해주세요!'),
+  workPlace: z.string().min(1, '활동장소를 입력해주세요!'),
 });
 
 export type PostVolunteerWorkRequest = z.infer<typeof PostVolunteerWorkForm>;

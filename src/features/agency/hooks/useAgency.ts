@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { getAgency, getAgencyDetail, patchAgency, postAgency } from '../api/agency.api';
@@ -27,6 +28,7 @@ export const useAgencyPost = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: postAgency,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: agencyKeys.list(),
@@ -39,6 +41,7 @@ export const useAgencyPatch = (id: number) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: patchAgency,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: agencyKeys.list(),

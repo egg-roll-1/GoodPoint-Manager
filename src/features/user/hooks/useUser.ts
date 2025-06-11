@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getUserProfile, patchUserProfile } from '../api/api';
 
@@ -18,6 +19,7 @@ export const useUserPatch = () => {
 
   return useMutation({
     mutationFn: patchUserProfile,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: userKeys.profile(),

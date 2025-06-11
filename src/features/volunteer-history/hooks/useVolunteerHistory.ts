@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   cancelVolunteerHistory,
@@ -23,6 +24,7 @@ export const useVolunteerHistoryPost = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: postVolunteerHistory,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerHistoryKeys.list(),
@@ -35,6 +37,7 @@ export const useVolunteerHistoryCancel = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: cancelVolunteerHistory,
+    onError: errorHandler,
     onSuccess: async () => {
       await client.invalidateQueries({
         queryKey: volunteerHistoryKeys.list(),

@@ -1,3 +1,4 @@
+import { errorHandler } from '@/features/common/errorHandler';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter, useSearch } from '@tanstack/react-router';
 import { useCallback } from 'react';
@@ -13,6 +14,7 @@ export const useSignUp = () => {
 
   return useMutation({
     mutationFn: signUp,
+    onError: errorHandler,
     onSuccess: async (response) => {
       const { accessToken, expiredAt: _expiredAt } = response;
       const expiredAt = new Date(_expiredAt);
@@ -37,9 +39,11 @@ export const useLogin = () => {
   const { setAuth } = useAuthStore((state) => state.actions);
 
   const { redirect } = search;
+  const to = redirect && redirect != '/login' ? redirect : '/';
 
   return useMutation({
     mutationFn: signIn,
+    onError: errorHandler,
     onSuccess: async (response) => {
       const { accessToken, expiredAt: _expiredAt } = response;
       const expiredAt = new Date(_expiredAt);
@@ -50,7 +54,7 @@ export const useLogin = () => {
         isAuthenticated: !!accessToken && !!expiredAt && new Date() < expiredAt,
       });
 
-      await router.navigate({ to: redirect ?? '/' });
+      await router.navigate({ to });
     },
   });
 };

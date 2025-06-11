@@ -44,14 +44,13 @@ function My() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user])
 
-    const onSubmit = useCallback(() => {
-        const request = form.getValues();
-        patchUser({ ...request }, {
+    const onSubmit = useCallback((values: PatchUserProfileRequest) => {
+        patchUser(values, {
             onSuccess: () => {
                 setIsEditMode(false)
             }
         })
-    }, [form, patchUser])
+    }, [patchUser])
 
     const onCancel = useCallback(() => {
         setIsEditMode(false);
